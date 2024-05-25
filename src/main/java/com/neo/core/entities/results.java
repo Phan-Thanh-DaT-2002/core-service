@@ -35,4 +35,7 @@ public class results {
 
     @Column(name = "DAY_TEST")
     private LocalDateTime dayTest;
+
+    @Column(name = "NOTE")
+    private String note;
 }
