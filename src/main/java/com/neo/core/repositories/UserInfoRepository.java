@@ -22,7 +22,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
             "left join Roles ro on u.roles = ro.idRole " +
             "left join results re on (re.userId = u.id  and re.numberTest  = (SELECT MAX(re1.numberTest) FROM results re1 where re.userId = re1.userId  ) )" +
             "left join UserInfo u1 on u1.id = u.idDoctor " +
-            " where u.status =1  " +
+            " where u.status in (1,2)  " +
             "AND (TRIM(:username) IS NULL OR LOWER(u.username) like LOWER(CONCAT('%',TRIM(:username), '%')))\n "+
             "AND (TRIM(:email) IS NULL OR LOWER(u.email) like LOWER(CONCAT('%',TRIM(:email), '%'))) " +
             "AND (TRIM(:fullName) IS NULL OR LOWER(u.fullName) like LOWER(CONCAT('%',TRIM(:fullName), '%'))) " +

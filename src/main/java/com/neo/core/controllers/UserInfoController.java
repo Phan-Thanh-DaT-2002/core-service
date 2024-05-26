@@ -127,7 +127,7 @@ public class UserInfoController extends BaseController {
         final String action = "doCreate";
         StopWatch sw = new StopWatch();
         log.info(START_LOG, action);
-
+        LocalDateTime currentTime = LocalDateTime.now();
         try {
             String customUserName = entity.getUsername().trim();
             String customPassword = entity.getPassword().trim();
@@ -173,6 +173,8 @@ public class UserInfoController extends BaseController {
             entity.setAddress(customAddress);
             entity.setIdDoctor(customIdDoctor);
             entity.setStatus(1);
+            entity.setStatusOnline(2);
+            entity.setCreatedDate(currentTime);
             service.create(entity);
 
 
