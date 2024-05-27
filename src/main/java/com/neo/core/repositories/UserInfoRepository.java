@@ -89,12 +89,26 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
             "u.roles, ro.nameRole, u.phone,u.email, u.address, u.createdDate, u.statusOnline,u.idPeerjs,u.idDoctor,u.status, re.score, u1.fullName) " +
             "FROM UserInfo u " +
             "left join Roles ro on u.roles = ro.idRole " +
-            "left join results re on re.userId = u.id " +
+            "left join results re on (re.userId = u.id  and re.numberTest  = (SELECT MAX(re1.numberTest) FROM results re1 where re.userId = re1.userId  ) )" +
             "left join UserInfo u1 on u1.id = u.idDoctor " +
-            " where u.id = ?1")
+            " where u.id = ?1 " +
+            "group by u.id, u.username, u.password, u.fullName," +
+            " u.dob, u.gender, u.roles, ro.nameRole, u.phone,u.email, u.address, " +
+            "u.createdDate, u.statusOnline,u.idPeerjs,u.idDoctor,u.status, re.score, u1.fullName")
     Optional<UserInfoDTO> findByIdUser(Integer id);
 
 
-    @Query("SELECT u.roles FROM UserInfo u WHERE u.id = ?1")
-    Integer getRoles(Integer id);
+    @Query("SELECT u.roles FROM UserInfo u WHERE u.id = ?1 ")
+    Integer  getRoles(Integer id);
+
+
+    @Query(value = "SELECT new com.neo.core.dto.UserInfoDTO(u.id, u.username, u.password, u.fullName, u.dob, u.gender, " +
+            "u.roles, ro.nameRole, u.phone,u.email, u.address, u.createdDate, u.statusOnline,u.idPeerjs,u.idDoctor,u.status, re.score, u1.fullName) " +
+            "FROM UserInfo u " +
+            "left join Roles ro on u.roles = ro.idRole " +
+            "left join results re on (re.userId = u.id  and re.numberTest  = (SELECT MAX(re1.numberTest) FROM results re1 where re.userId = re1.userId  ) )" +
+            "left join UserInfo u1 on u1.id = u.idDoctor " +
+            " where u.roles = ?1 " )
+    List<UserInfoDTO>  FindIdDoctor(Integer id);
+
 }

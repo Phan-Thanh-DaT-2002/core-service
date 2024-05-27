@@ -117,4 +117,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public Optional<UserInfoDTO>  findByIdUser(Integer id) {
         return repo.findByIdUser(id);
     }
+
+    @Override
+    public List<UserInfoDTO> FindIdDoctor(Integer id) {
+        return repo.FindIdDoctor(id);
+    }
 }

@@ -143,17 +143,17 @@ public class UserInfoController extends BaseController {
 
             //check tên đăng nhập đã tồn tại
             UserInfo checkExisted = service.findByUsername(customUserName);
-            if (checkExisted != null && checkExisted.getStatus() != 0 ) {
+            if (checkExisted != null && checkExisted.getStatus() != 2 ) {
                 // username đã tồn tại
                 ResponseModel responseModel = new ResponseModel();
                 responseModel.setStatusCode(HttpStatus.SC_OK);
                 responseModel.setCode(ResponseFontendDefine.CODE_ALREADY_EXIST);
-                responseModel.setErrorMessages("Người dùng đã tồn tạitrên hệ thống.");
+                responseModel.setErrorMessages("Người dùng đã tồn tại trên hệ thống.");
                 return responseModel;
             }
             //check email đã tồn tại
             UserInfo checkEmailExisted = service.findByEmail(customEmail);
-            if (checkEmailExisted != null && checkEmailExisted.getStatus() != 0 && checkEmailExisted.getEmail() != null) {
+            if (checkEmailExisted != null && checkEmailExisted.getStatus() != 2 && checkEmailExisted.getEmail() != null) {
                 ResponseModel responseModel = new ResponseModel();
                 responseModel.setStatusCode(HttpStatus.SC_OK);
                 responseModel.setCode(ResponseFontendDefine.CODE_GMAIL_EXIST);
@@ -222,7 +222,7 @@ public class UserInfoController extends BaseController {
     }
 
 //done
-    @PutMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseModel doDeleteLogic(@PathVariable Integer id, HttpServletRequest request)
             throws Exception{
         final String action = "doDelete";
@@ -232,7 +232,7 @@ public class UserInfoController extends BaseController {
 
         try {
             UserInfo entity = service.retrieve(id);
-            entity.setStatus(0);
+            entity.setStatus(2);
             service.update(entity, id);
             responseModel.setStatusCode(HttpStatus.SC_OK);
             responseModel.setCode(ResponseFontendDefine.CODE_SUCCESS);
@@ -246,7 +246,7 @@ public class UserInfoController extends BaseController {
 
 
     //done
-    @PutMapping("FindById/{id}")
+    @GetMapping("FindById/{id}")
     public ResponseModel FindById(@PathVariable Integer id, HttpServletRequest request)
             throws Exception{
         final String action = "FindById";
@@ -267,8 +267,31 @@ public class UserInfoController extends BaseController {
         }
     }
 
-    
-//done
+
+    //done
+    @GetMapping("FindIdDoctor")
+    public ResponseModel FindIdDoctor( HttpServletRequest request)
+            throws Exception{
+        final String action = "FindIdDoctor";
+        StopWatch sw = new StopWatch();
+        log.info(START_LOG, action);
+        ResponseModel responseModel = new ResponseModel();
+
+        try {
+            List<UserInfoDTO> entity = service.FindIdDoctor(2);
+            responseModel.setContent(entity);
+            responseModel.setStatusCode(HttpStatus.SC_OK);
+            responseModel.setCode(ResponseFontendDefine.CODE_SUCCESS);
+            return responseModel;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            log.info(END_LOG, action, sw.getTotalTimeSeconds());
+        }
+    }
+
+
+    //done
     @PostMapping("/change-password")
     public ResponseModel changePassword(@RequestBody Integer id, String password,  HttpServletRequest request) {
         final String action = "changePassword";
