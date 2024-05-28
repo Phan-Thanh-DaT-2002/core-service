@@ -32,17 +32,30 @@ public class ResultsController extends BaseController {
     ResultsService service;
 
     @GetMapping()
-    public ResponseModel doSearch(@RequestParam(defaultValue = "0") int currentPage,
-                                  @RequestParam(defaultValue = "10") int perPage,
-                                  HttpServletRequest request) {
+    public ResponseModel doSearch(
+                                @RequestParam(value = "id", required = false) String id,
+                                @RequestParam(defaultValue = "0") int currentPage,
+                                @RequestParam(defaultValue = "10") int perPage,
+                                HttpServletRequest request) {
         final String action = "doSearch";
         StopWatch sw = new StopWatch();
         sw.start();
+
+        Integer number = null;
+
+        if (id != null) {
+            try {
+                number = Integer.parseInt(id);
+            } catch (NumberFormatException e) {
+
+            }
+        }
+//        int number = Integer.parseInt(id);
         log.info(START_LOG, action);
         try {
             Pageable paging = PageRequest.of(currentPage, perPage);
             Page<results> pageResult = null;
-            pageResult = service.doSearch(getUserFromToken(request),paging);
+            pageResult = service.doSearch(number, getUserFromToken(request),paging);
             if ((pageResult == null || pageResult.isEmpty())) {
                 ResponseModel responseModel = new ResponseModel();
                 responseModel.setErrorMessages("Không tìm thấy kết quả.");

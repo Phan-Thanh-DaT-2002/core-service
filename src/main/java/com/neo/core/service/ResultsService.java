@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ResultsService {
     Page<results> doSearch(
+            Integer id,
             Integer id1,
             Pageable paging);
 }
