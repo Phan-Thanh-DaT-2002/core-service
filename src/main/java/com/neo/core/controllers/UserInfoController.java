@@ -365,5 +365,25 @@ public class UserInfoController extends BaseController {
             log.info(END_LOG, action, sw.getTotalTimeSeconds());
         }
     }
+    //done
+    @PostMapping("UpdatePeerJs")
+    public ResponseModel doUpdatePeerJs(@RequestBody  String idPeerjs, HttpServletRequest request) {
+        final String action = "doUpdatePeerJs";
+        StopWatch sw = new StopWatch();
+        log.info(START_LOG, action);
+        try {
+            UserInfo entity = service.retrieve(getUserFromToken(request));
 
+            entity.setIdPeerjs(idPeerjs);
+            service.update(entity, entity.getId());
+            ResponseModel responseModel = new ResponseModel();
+            responseModel.setStatusCode(HttpStatus.SC_OK);
+            responseModel.setCode(ResponseFontendDefine.CODE_SUCCESS);
+            return responseModel;
+        } catch (Exception e) {
+            throw handleException(e);
+        } finally {
+            log.info(END_LOG, action, sw.getTotalTimeSeconds());
+        }
+    }
 }
