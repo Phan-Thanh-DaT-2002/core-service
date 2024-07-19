@@ -26,4 +26,6 @@ public interface UserInfoService extends IRootService<UserInfo>{
     UserInfo findByEmail(String email);
     List<UserInfoDTO> FindIdDoctor(Integer id);
     Optional<UserInfoDTO> findByIdUser(Integer id);
+    Integer  getNumberTest(Integer id);
+
 }

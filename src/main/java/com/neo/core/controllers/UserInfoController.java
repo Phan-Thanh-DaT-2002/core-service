@@ -11,7 +11,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.neo.core.dto.*;
 import com.neo.core.entities.PasswordPolicies;
+import com.neo.core.entities.results;
 import com.neo.core.service.PasswordPoliciesService;
+import com.neo.core.service.ResultsService;
 import io.swagger.models.auth.In;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class UserInfoController extends BaseController {
 
     @Autowired
     UserInfoService service;
+
+    @Autowired
+    ResultsService resultsservice;
 
     @Autowired
     SecurityCredentialsConfig config;
@@ -304,6 +309,47 @@ public class UserInfoController extends BaseController {
             entity.setPassword(passwordNew);
             service.update(entity, id);
 
+            ResponseModel responseModel = new ResponseModel();
+            responseModel.setStatusCode(HttpStatus.SC_OK);
+            responseModel.setCode(ResponseFontendDefine.CODE_SUCCESS);
+            return responseModel;
+        } catch (Exception e) {
+            throw handleException(e);
+        } finally {
+            log.info(END_LOG, action, sw.getTotalTimeSeconds());
+        }
+    }
+
+    //done
+    @PostMapping("/change-newPoint")
+    public ResponseModel newPoint(@RequestBody Integer id, Integer score, String note,Integer time,  HttpServletRequest request) {
+        final String action = "newPoint";
+        StopWatch sw = new StopWatch();
+        log.info(START_LOG, action);
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        try {
+
+            Integer number = service.getNumberTest(id);
+                results entity = new results();
+            if (number != null) {
+                    entity.setUserId(id);
+                    entity.setTime(time);
+                    entity.setNumberTest(number++);
+                    entity.setScore(score);
+                    entity.setNote(note);
+                    entity.setDayTest(currentTime);
+                    resultsservice.create(entity);
+                             }
+                            else {
+                entity.setUserId(id);
+                entity.setTime(time);
+                entity.setNumberTest(1);
+                entity.setScore(score);
+                entity.setNote(note);
+                entity.setDayTest(currentTime);
+                resultsservice.create(entity);
+                                      }
             ResponseModel responseModel = new ResponseModel();
             responseModel.setStatusCode(HttpStatus.SC_OK);
             responseModel.setCode(ResponseFontendDefine.CODE_SUCCESS);

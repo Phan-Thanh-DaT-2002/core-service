@@ -101,6 +101,9 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
     @Query("SELECT u.roles FROM UserInfo u WHERE u.id = ?1 ")
     Integer  getRoles(Integer id);
 
+    @Query("SELECT r.numberTest FROM results r WHERE r.userId = ?1 ")
+    Integer  getNumberTest(Integer id);
+
 
     @Query(value = "SELECT new com.neo.core.dto.UserInfoDTO(u.id, u.username, u.password, u.fullName, u.dob, u.gender, " +
             "u.roles, ro.nameRole, u.phone,u.email, u.address, u.createdDate, u.statusOnline,u.idPeerjs,u.idDoctor,u.status, re.score, u1.fullName) " +

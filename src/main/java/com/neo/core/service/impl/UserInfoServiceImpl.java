@@ -1,6 +1,7 @@
 package com.neo.core.service.impl;
 import com.neo.core.dto.UserInfoDTO;
 import com.neo.core.entities.UserInfo;
+import com.neo.core.entities.results;
 import com.neo.core.repositories.UserInfoRepository;
 import com.neo.core.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     UserInfoRepository repo;
 
 	@Override
-	public UserInfo create(UserInfo entity) {
+	public UserInfo create(UserInfo  entity) {
 		// TODO Auto-generated method stub
 		return repo.save(entity);
 	}
+
+
+
 
     @Override
     public UserInfo retrieve(Integer id) {
@@ -116,6 +120,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public Optional<UserInfoDTO>  findByIdUser(Integer id) {
         return repo.findByIdUser(id);
+    }
+
+    @Override
+    public Integer  getNumberTest(Integer id) {
+        return repo.getNumberTest(id);
     }
 
     @Override
