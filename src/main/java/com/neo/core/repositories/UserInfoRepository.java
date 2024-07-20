@@ -101,7 +101,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
     @Query("SELECT u.roles FROM UserInfo u WHERE u.id = ?1 ")
     Integer  getRoles(Integer id);
 
-    @Query("SELECT r.numberTest FROM results r WHERE r.userId = ?1 ")
+    @Query("SELECT MAX(r.numberTest) FROM results r WHERE r.userId = ?1 ")
     Integer  getNumberTest(Integer id);
 
 

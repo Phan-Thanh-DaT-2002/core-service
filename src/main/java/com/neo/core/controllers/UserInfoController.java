@@ -322,27 +322,32 @@ public class UserInfoController extends BaseController {
 
     //done
     @PostMapping("/change-newPoint")
-    public ResponseModel newPoint(@RequestBody Integer id, Integer score, String note,Integer time,  HttpServletRequest request) {
+    public ResponseModel newPoint(@RequestBody  results entity,   HttpServletRequest request) {
         final String action = "newPoint";
         StopWatch sw = new StopWatch();
         log.info(START_LOG, action);
         LocalDateTime currentTime = LocalDateTime.now();
 
         try {
+          //  Integer id, Integer score, String note,Integer time,
 
-            Integer number = service.getNumberTest(id);
-                results entity = new results();
+            Integer   userId  = entity.getUserId();
+            Integer   time  = entity.getTime();
+            Integer score = entity.getScore();
+            String note = entity.getNote();
+            Integer number = service.getNumberTest(userId);
+                results e = new results();
             if (number != null) {
-                    entity.setUserId(id);
-                    entity.setTime(time);
-                    entity.setNumberTest(number++);
-                    entity.setScore(score);
-                    entity.setNote(note);
-                    entity.setDayTest(currentTime);
-                    resultsservice.create(entity);
+                    e.setUserId(userId);
+                    e.setTime(time);
+                    e.setNumberTest(++number);
+                    e.setScore(score);
+                    e.setNote(note);
+                    e.setDayTest(currentTime);
+                    resultsservice.create(e);
                              }
                             else {
-                entity.setUserId(id);
+                entity.setUserId(userId);
                 entity.setTime(time);
                 entity.setNumberTest(1);
                 entity.setScore(score);
