@@ -54,7 +54,8 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/confirm-account/**").permitAll()
 				// allow all POST requests
 				.antMatchers(HttpMethod.POST, "/neo/login").permitAll()
-				// any other requests must be authenticated
+				// any other requests must be authenticated.
+
 				.antMatchers("/**").permitAll().anyRequest().authenticated();
 	}
 

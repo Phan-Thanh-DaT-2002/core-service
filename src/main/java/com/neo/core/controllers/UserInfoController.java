@@ -61,6 +61,7 @@ public class UserInfoController extends BaseController {
                                   @RequestParam(value = "fullName", required = false) String fullName,
                                   @RequestParam(value = "phone", required = false) String phone,
                                   @RequestParam(value = "statusOnline", required = false) List<Integer> statusOnline,
+                                  @RequestParam(value = "status", required = false) List<Integer> status,
                                   @RequestParam(value = "scoreFrom", required = false) Integer scoreFrom,
                                   @RequestParam(value = "scoreTo", required = false) Integer scoreTo,
                                   @RequestParam(value = "fromDate", required = false) String fromDate,
@@ -96,7 +97,7 @@ public class UserInfoController extends BaseController {
                 fullName = null;
             }
 
-            pageResult = service.doSearch(username,email,fullName,phone,statusOnline,scoreFrom,scoreTo,fromDate,toDate, getUserFromToken(request),paging);
+            pageResult = service.doSearch(username,email,fullName,phone,statusOnline,status,scoreFrom,scoreTo,fromDate,toDate, getUserFromToken(request),paging);
             if ((pageResult == null || pageResult.isEmpty())) {
                 ResponseModel responseModel = new ResponseModel();
                 responseModel.setErrorMessages("Không tìm thấy người dùng.");

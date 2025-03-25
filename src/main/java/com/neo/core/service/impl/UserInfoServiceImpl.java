@@ -57,6 +57,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             String fullName,
             String phone,
             List<Integer> statusOnline,
+            List<Integer> status,
             Integer scoreFrom,
             Integer scoreTo,
             String fromDate,
@@ -92,8 +93,16 @@ public class UserInfoServiceImpl implements UserInfoService {
             return repo.doSearchDoctor(username,email,fullName,phone,statusOnline,scoreFrom,scoreTo,dateFrom,dateTo ,id1,paging);
         }
         else {
+            if(  status == null){
+                status = new ArrayList<>();
+                status.addAll(Arrays.asList(1, 2));
+            }
+            if(  status.isEmpty()){
+                status.addAll(Arrays.asList(1, 2));
+            }
+
             //Trả về tất cả các bản ghi
-            return repo.doSearchAll(username,email,fullName,phone,statusOnline,scoreFrom,scoreTo,dateFrom,dateTo,paging);
+            return repo.doSearchAll(username,email,fullName,phone,statusOnline,status, scoreFrom,scoreTo,dateFrom,dateTo,paging);
         }
     }
 

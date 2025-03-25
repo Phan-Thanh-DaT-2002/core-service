@@ -15,6 +15,7 @@ public interface UserInfoService extends IRootService<UserInfo>{
             String fullName,
             String phone,
             List<Integer> statusOnline,
+            List<Integer> status,
             Integer scoreFrom,
             Integer scoreTo,
             String fromDate,

@@ -28,6 +28,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
             "AND (TRIM(:fullName) IS NULL OR LOWER(u.fullName) like LOWER(CONCAT('%',TRIM(:fullName), '%'))) " +
             "AND (TRIM(:phone) IS NULL OR LOWER(u.phone) like LOWER(CONCAT('%',TRIM(:phone), '%'))) " +
             "AND ( u.statusOnline in (:statusOnline)) " +
+            "AND ( u.status in (:status)) " +
             "AND (:scoreFrom IS NULL OR re.score >= :scoreFrom) " +
             "AND (:scoreTo IS NULL OR re.score <= :scoreTo) " +
             "AND (:dateFrom IS NULL OR u.createdDate >= :dateFrom) " +
@@ -39,6 +40,7 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
                     @Param("fullName") String fullName,
                     @Param("phone") String phone,
                     @Param("statusOnline") List<Integer> statusOnline,
+                    @Param("status") List<Integer> status,
                     @Param("scoreFrom") Integer scoreFrom,
                     @Param("scoreTo") Integer scoreTo,
                     @Param("dateFrom") LocalDateTime dateFrom,
